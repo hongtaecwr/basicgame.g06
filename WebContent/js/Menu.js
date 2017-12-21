@@ -19,10 +19,23 @@ Menu.prototype.create = function() {
 	this.music.play(); 
 	
 	this.bg = this.game.add.sprite(0, 0, "Menu2");	
-	var sprite = this.add.sprite(this.world.centerX, this.world.centerY,
+	var sprite = this.add.sprite((this.game.width/2),(this.game.height/2),
 			"Play");
 	sprite.anchor.set(0.5,-1);
-	this.input.onDown.add(this.startGame, this);
+	sprite.inputEnabled = true;
+	sprite.events.onInputDown.add(this.startGame, this);
+	
+	var sprite1 = this.add.sprite((this.game.width/2+530),(this.game.height/2+290),
+	"credit");
+	sprite1.anchor.set(0.5,-1);
+	sprite1.inputEnabled = true;
+	sprite1.events.onInputDown.add(this.startCredit, this);
+	
+	
+};
+
+Menu.prototype.startCredit = function() {
+	this.game.state.start("Credit");
 };
 
 Menu.prototype.startGame = function() {

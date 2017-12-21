@@ -12,10 +12,10 @@ Story.prototype = proto;
 Story.prototype.constructor = Story;
 
 var content = [
-               "มีพ่อมดอยู่คนหนึ่ง เขาเป็นผู้นำของหมู่บ้านของเหล่าพ่อมดและแม่มดทั้งหลาย",
-               "แต่แล้ววันหนึ่ง... ได้มีกองทัพสัตว์ประหลาดร้ายจะมายึดครองหมู่บ้านของเค้า และยากที่จะเอาชนะพวกมันได้",
-               "แต่มีทางเดียวเท่านั้นคือ...",
-               "พ่อมดต้องไปตามเก็บสะสมพลังให้ครบ 3 ดวงเท่านั้น จึงจะสามารถชนะพวกเหล่าสัตว์ประหลาดร้ายคิงส์โทรลได้ !!!",
+               "",
+               "",
+               "",
+               "",
 
            ];
 //text
@@ -38,10 +38,10 @@ Story.prototype.preload = function() {
 Story.prototype.create = function() {
 
 	//picture
-	pictureA = this.add.sprite(this.world.centerX, this.world.centerY, 'story1');
+	pictureA = this.add.sprite((this.game.width/2),(this.game.height/2), 'story1');
     pictureA.anchor.setTo(0.5, 0.5);
     
-    pictureB = this.add.sprite(this.world.centerX, this.world.centerY, 'story2');
+    pictureB = this.add.sprite((this.game.width/2),(this.game.height/2), 'story2');
     pictureB.anchor.setTo(0.5, 0.5);
     pictureB.alpha = 0;
     

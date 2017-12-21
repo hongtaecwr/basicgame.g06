@@ -1,12 +1,6 @@
 {
   "level": [
     {
-      "type": "image",
-      "key": "mono",
-      "url": "assets/images/mono.png",
-      "overwrite": false
-    },
-    {
       "type": "spritesheet",
       "key": "winter",
       "url": "assets/tilemap/winter.png",
@@ -34,12 +28,6 @@
     },
     {
       "type": "image",
-      "key": "Menu",
-      "url": "assets/images/Menu.png",
-      "overwrite": false
-    },
-    {
-      "type": "image",
       "key": "Menu2",
       "url": "assets/images/Menu2.png",
       "overwrite": false
@@ -52,12 +40,6 @@
     },
     {
       "type": "image",
-      "key": "game_background_1",
-      "url": "assets/images/game_background_1.png",
-      "overwrite": false
-    },
-    {
-      "type": "image",
       "key": "game_background_3. 2",
       "url": "assets/images/game_background_3. 2.png",
       "overwrite": false
@@ -66,12 +48,6 @@
       "type": "image",
       "key": "game_background_4",
       "url": "assets/images/game_background_4.png",
-      "overwrite": false
-    },
-    {
-      "type": "image",
-      "key": "howto",
-      "url": "assets/images/howto.png",
       "overwrite": false
     },
     {
@@ -112,30 +88,6 @@
       "spacing": 0
     },
     {
-      "type": "tilemap",
-      "key": "stage_1",
-      "url": "assets/tilemap/stage_1.json",
-      "format": "TILED_JSON"
-    },
-    {
-      "type": "video",
-      "key": "intro",
-      "urls": ["assets/video/intro.mp4"],
-      "asBlob": false
-    },
-    {
-      "type": "audio",
-      "key": "music",
-      "urls": ["assets/audio/music.ogg"],
-      "autoDecode": true
-    },
-    {
-      "type": "audio",
-      "key": "shoot",
-      "urls": ["assets/audio/shoot.ogg"],
-      "autoDecode": true
-    },
-    {
       "type": "spritesheet",
       "key": "story1",
       "url": "assets/images/1.jpg",
@@ -164,6 +116,90 @@
       "frameMax": -1,
       "margin": 0,
       "spacing": 0
+    },
+    {
+      "type": "spritesheet",
+      "key": "doorOpen_top",
+      "url": "assets/images/doorOpen_top.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frameMax": -1,
+      "margin": 0,
+      "spacing": 0
+    },
+    {
+      "type": "tilemap",
+      "key": "stage_1",
+      "url": "assets/tilemap/stage_1.json",
+      "format": "TILED_JSON"
+    },
+    {
+      "type": "image",
+      "key": "live",
+      "url": "assets/images/live.png",
+      "overwrite": false
+    },
+    {
+      "type": "spritesheet",
+      "key": "pow",
+      "url": "assets/images/pow.png",
+      "frameWidth": 40,
+      "frameHeight": 40,
+      "frameMax": -1,
+      "margin": 0,
+      "spacing": 0
+    },
+    {
+      "type": "audio",
+      "key": "shoot2",
+      "urls": ["assets/audio/shoot2.ogg"],
+      "autoDecode": true
+    },
+    {
+      "type": "image",
+      "key": "lose",
+      "url": "assets/images/lose.png",
+      "overwrite": false
+    },
+    {
+      "type": "audio",
+      "key": "die",
+      "urls": ["assets/audio/die.ogg"],
+      "autoDecode": true
+    },
+    {
+      "type": "image",
+      "key": "win",
+      "url": "assets/images/win.png",
+      "overwrite": false
+    },
+    {
+      "type": "image",
+      "key": "credit",
+      "url": "assets/images/credit.png",
+      "overwrite": false
+    },
+    {
+      "type": "spritesheet",
+      "key": "Creditbg",
+      "url": "assets/images/Creditbg.png",
+      "frameWidth": 0,
+      "frameHeight": 0,
+      "frameMax": -1,
+      "margin": 0,
+      "spacing": 0
+    },
+    {
+      "type": "image",
+      "key": "back",
+      "url": "assets/images/back.png",
+      "overwrite": false
+    },
+    {
+      "type": "audio",
+      "key": "music",
+      "urls": ["assets/audio/music.ogg"],
+      "autoDecode": true
     }
   ],
   "start": [{
@@ -179,7 +215,7 @@
     "overwrite": false
   }],
   "meta": {
-    "generated": "1511251219724",
+    "generated": "1513833141990",
     "app": "Phaser Editor",
     "url": "http://phasereditor.boniatillo.com",
     "version": "1.0",

@@ -1,27 +1,27 @@
 /**
  * Level state.
  */
-function Level() {
+function Level_3() {
 	Phaser.State.call(this);
 }
 
 /** @type Phaser.State */
 var proto = Object.create(Phaser.State);
-Level.prototype = proto;
+Level_3.prototype = proto;
 var count;
 
-Level.prototype.create = function() {
+Level_3.prototype.create = function() {
 	count =0;
 	this.game.physics.startSystem(Phaser.Physics.ARCADE);
 	this.game.physics.arcade.gravity.y = 1000;
 	
-	this.bg = this.game.add.sprite(0, 0, "game_background_4");
+	this.bg = this.game.add.sprite(0, 0, "game_background_3. 2");
 	this.bg.fixedToCamera = true;
 	this.bg.width = this.game.width;
 	this.bg.height = this.game.height;
 	
-	this.map = this.game.add.tilemap("stage_1");
-	this.map.addTilesetImage('winter');
+	this.map = this.game.add.tilemap("stage_3");
+	this.map.addTilesetImage('graveyard');
 	this.maplayer = this.map.createLayer("Tile Layer 1");
 	this.maplayer2 = this.map.createLayer("Tile Layer 2");
 	
@@ -36,8 +36,7 @@ Level.prototype.create = function() {
 	this.map.setCollisionBetween(0,130,true,this.maplayer);
 	// สร้าง group ของศัตรู
 	this.enemies = this.add.group();
-	this.diamond = this.add.group();
-	this.goal = this.add.group();
+	this.boss = this.add.group();
 	
 	// load object layer
 	for(x in this.map.objects.object){
@@ -47,74 +46,63 @@ Level.prototype.create = function() {
 			this.player = this.addPlayer(obj.x,obj.y);
 			this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_PLATFORMER);
 			//this.player.play("walk");
-	}else if(obj.type=="enemy1"){
+	}else if(obj.type=="boss"){
 			var c = this.addEnemy1(obj.x,obj.y);
-			this.enemies.add(c);
+			this.boss.add(c);
 	}else if(obj.type=="enemy2"){
 			var c = this.addEnemy2(obj.x,obj.y);
 			this.enemies.add(c);
-	}else if(obj.type=="goal"){
-		var c = this.addgoal(obj.x, obj.y);
-		this.goal.add(c);
-		}
-	else if(obj.type== "diamond"){
-		var c = this.adddiamond(obj.x, obj.y);
-		this.diamond.add(c);
 	}
 		}
 	
-	//Set some physics on the sprite
-   this.player.body.bounce.y = 0.2;
+	this.player.body.bounce.y = 0.2;
     this.player.body.gravity.y = 500;
     this.player.body.gravity.x = 10;
     this.player.body.velocity.x = 70;
-    
-    score = 0;
-	this.scoreText;
-	scoreText = this.game.add.text(16, 16, 'Diamond : 0', {
-	    fontSize: '50px',
-	    fill: '#ed3465'
-	  });
 	
-	scoreText.fixedToCamera = true;
-	
-	this.ui      = this.add.group();
-	this.ui.fixedToCamera = true;
-	
-	this.input.keyboard.addKeyCapture([
-	                                   Phaser.Keyboard.LEFT,
-	                                   Phaser.Keyboard.RIGHT,
-	                                   Phaser.Keyboard.SPACEBAR,
-	                                   Phaser.Keyboard.X
-	                           ]);
-	
-	this.createWeapon();
-	this.player.inputEnabled = true;
-	this.player.events.onInputDown.add(this.fireWeapon, this); 
-	 
-	this.player.maxHealth = 6;
-	this.player.setHealth(3);
-	//this.game.time.events.add(Phaser.Timer.SECOND * 60, this.onPlayerKilled, this);
-	this.player.events.onKilled.addOnce(this.onPlayerKilled,this);
-	//this.player.canhit = true;
-	
-	this.heart = [];
-	 for(var i=0;i<3;i++){
-		 this.heart[i] = this.add.sprite(1060-(60*i),5,"live");
-		 this.heart[i].scale.set(0.6);
-		 this.heart[i].fixedToCamera = true;
-	 } 
+	 score = 0;
+		this.scoreText;
+		scoreText = this.game.add.text(16, 16, 'Diamond : 6', {
+		    fontSize: '50px',
+		    fill: '#ed3465'
+		  });
 		
+		scoreText.fixedToCamera = true;
+		
+		this.ui      = this.add.group();
+		this.ui.fixedToCamera = true;
+		
+		this.input.keyboard.addKeyCapture([
+		                                   Phaser.Keyboard.LEFT,
+		                                   Phaser.Keyboard.RIGHT,
+		                                   Phaser.Keyboard.SPACEBAR,
+		                                   Phaser.Keyboard.X
+		                           ]);
+		
+		this.createWeapon();
+		this.player.inputEnabled = true;
+		this.player.events.onInputDown.add(this.fireWeapon, this); 
+		 
+		this.player.maxHealth = 6;
+		this.player.setHealth(3);
+		//this.game.time.events.add(Phaser.Timer.SECOND * 60, this.onPlayerKilled, this);
+		this.player.events.onKilled.addOnce(this.onPlayerKilled,this);
+		this.player.canhit = true;
+		
+		this.heart = [];
+		 for(var i=0;i<3;i++){
+			 this.heart[i] = this.add.sprite(1000-(60*i),5,"live");
+			 this.heart[i].scale.set(0.6);
+			 this.heart[i].fixedToCamera = true;
+		 } 
+	
 };
 
-Level.prototype.update = function() {
+Level_3.prototype.update = function() {
 	this.game.physics.arcade.collide(this.player,this.maplayer);
 	this.game.physics.arcade.collide(this.enemies,this.maplayer);
-	this.game.physics.arcade.collide(this.diamond, this.maplayer);
-	this.game.physics.arcade.collide(this.goal, this.maplayer);
-	this.game.physics.arcade.collide(this.player,this.diamond, this.putdiamond,null,this);
-	this.game.physics.arcade.collide(this.player,this.goal, this.win,null,this);
-	//this.game.physics.arcade.collide(this.player,this.enemies, this.onPlayerCollide,null,this);
+	this.game.physics.arcade.collide(this.boss,this.maplayer);
+	
 	
 	
 	if (this.input.keyboard.isDown(Phaser.Keyboard.LEFT))
@@ -161,15 +149,21 @@ Level.prototype.update = function() {
     	this.fireWeapon();
 	}
     
-    this.physics.arcade.collide(this.enemies,this.weapon1.bullets,this.onCollide,null,this);
+  this.physics.arcade.collide(this.enemies,this.weapon1.bullets,this.onCollide,null,this);
+  this.physics.arcade.collide(this.boss,this.weapon1.bullets,this.onCollideBoss,null,this);
 	
 	if(this.player.canhit){
 		//this.player.play("die");
 		this.game.physics.arcade.collide(this.player,this.enemies, this.onPlayerCollide,null,this);
+		this.game.physics.arcade.collide(this.player,this.boss, this.onPlayerCollideBoss,null,this);
 		this.player.canhit = false;
 	}
 	
 	if(this.physics.arcade.collide(this.player,this.enemies,this.onPlayerCollide,null,this)){
+		 count++;
+		 console.log(count);
+	 }
+	if(this.physics.arcade.collide(this.player,this.boss,this.onPlayerCollideBoss,null,this)){
 		 count++;
 		 console.log(count);
 	 }
@@ -178,116 +172,40 @@ Level.prototype.update = function() {
 	this.playerx = this.player.x;
 	this.playery = this.player.y;
 	
-	/*this.enemies.forEachAlive(function(a){ 
-		//console.log(this.playerx);console.log(a.x);
-		//console.log(this.playery);console.log(a.y);
-		 if(this.playerx > a.x-2 || this.playerx < a.x &&this.playery == a.y ){
+	 this.enemies.forEachAlive(function(a){
+		 if(this.playerx > a.x-500 && this.playerx || a.x && this.playery == a.y){
+			// a.play("walk");
 			 a.x-=2;
 			 a.scale.x = -0.2;
-			 console.log("TT");
-		 } else if(this.playerx > a.x || this.playerx < a.x+2 && this.playery == a.y){
+		 } else if(this.playerx > a.x && this.playerx < a.x+500 || this.playery == a.y){
+			 //a.play("walk");
 			 a.x+=2;
 			 a.scale.x = 0.2;
-			 console.log("AA");
 		 }	 		 		 
-	 },this); */
+	 },this);
+	 
+	 this.boss.forEachAlive(function(a){
+		 if(this.playerx > a.x-500 && this.playerx || a.x && this.playery == a.y){
+			 a.play("walk");
+			 a.x-=2;
+			 a.scale.x = -0.7;
+		 } else if(this.playerx > a.x && this.playerx < a.x+500 || this.playery == a.y){
+			 a.play("walk");
+			 a.x+=2;
+			 a.scale.x = 0.7;
+		 }	 		 		 
+	 },this);
 	
 };
 
-/*Level.prototype.checkDistance = function(a) {
-	if (a.isDie) {
-		a.body.velocity.x = 0;
-		return;
-	}
-	// store the distance in distanceAB
-	this.distanceAB = this.game.physics.arcade.distanceBetween(this.player, a);
-	this.AY = Math.round(a.y);
-	this.PY = Math.round(this.player.y);
-	// console.log(this.distanceAB);
-	// console.log("NOW "+this.AY + " A -- P" + this.PY); // zombie2 use 190 ,
-	if (this.distanceAB < 250 && this.distanceAB >= 50) {
-		// ref @ http://blog.kumansenu.com/2016/07/chase-enemy-ai-with-phaser/
 
-		if (this.AY == this.PY || this.AY == this.PY - 1
-				|| this.AY == this.PY - 2) {
-//			console.log(this.AY + " A  --  P" + this.PY); // zombie2 use 190 ,
-			// zombie1 use 192
-			// --> p -2
-			if (Math.round(this.player.x) > Math.round(a.x)) {
-				a.play("Walk");
-				a.body.velocity.x = 80;
-				a.scale.x = -0.25;
-
-			} else {
-				a.scale.x = 0.25;
-				a.play("Walk");
-				a.body.velocity.x = -80;
-
-			}
-			this.chasing = true;
-		} else {
-			this.chasing = false;
-		}
-		if (!this.chasing) {
-			// reduce speeds back to normal
-			if (a.body.velocity.x > 0 || a.body.velocity.x < 0) {
-				a.body.acceleration.x = 0;
-				a.play("Idle");
-			}
-		}
-		// console.log("is < 250 | Play Walk!");
-	} else if (this.distanceAB < 50) {
-		if (Math.round(this.player.x) > Math.round(a.x)) {
-			a.scale.x = -0.25;
-		} else {
-			a.scale.x = 0.25;
-		}
-		this.isATK = true;
-		// console.log("is < 50 | Play ATTACK!");
-	} else {
-		// console.log("else IDLE !!");
-		a.play("Idle");
-	}
-
-	// ANIMATION
-
-	// if (a.body.velocity.x < 0) {
-	//			
-	// a.play("Walk");
-	// console.log("walk +");
-	// } else if (a.body.velocity.x > 0) {
-	//			
-	// console.log("walk -");
-	// } else if (this.isATK) {
-	// a.play("Attack");
-	// this.isATK = false;
-	// } else {
-	// a.play("Idle");
-	// }
-
-	if (this.isATK) {
-		a.play("Attack");
-		this.isATK = false;
-	}
-
-}; */
-
-function gframes(key,n){
-		var f=[ ];
-		for(var i=0;i<=n;i++){
-		var kf=key+"_"+(("00" + i).slice (-3));
-		f.push(kf);
-		}
-		return f;
-};
-
-Level.prototype.addPlayer = function(x, y) {
+Level_3.prototype.addPlayer = function(x, y) {
 	var t = this.add.sprite(x, y, "wizard");
 	t.animations.add("idle", mframe("Idle", 5), 12, true);
 	t.animations.add("attack", mframe("Attack", 5), 12, true);
 	t.animations.add("die", mframe("Die", 4), 12, false);
 	t.animations.add("hurt", mframe("Hurt", 6), 12, true);
-	t.animations.add("jump", mframe("Jump", 6), 12, false);
+	t.animations.add("jump", mframe("Jump", 6), 12, true);
 	t.animations.add("run", mframe("Run", 6), 12, true);
 	t.animations.add("walk", mframe("Walk", 5), 12, true);
 	t.anchor.set(0,0.1);
@@ -310,18 +228,29 @@ function mframe(key,n){
 		return f;
 }
 
-
-function mframe(key,n){
-		f=[ ];
-		for(var i=1;i<n;i++){
-		f.push(key+" ("+i+")");
-		}
-		return f;
-}
-	
-
-Level.prototype.addEnemy1 = function(x, y) {
+Level_3.prototype.addEnemy1 = function(x, y) {
 		c = this.add.sprite(x,y, "enemy1");
+		//c.scale.set(0.4);
+		c.animations.add("attack", mframe("Attack",7), 12, true);
+		c.animations.add("die", mframe("Die",7), 12, true);
+		c.animations.add("hurt", mframe("Hurt",7), 12, true);
+		c.animations.add("idle", mframe("Idle",7), 12, true);
+		c.animations.add("jump", mframe("Jump",7), 12, true);
+		c.animations.add("run", mframe("Run",7), 12, true);
+		c.animations.add("walk", mframe("Walk",7), 12, true);
+		c.play("idle");
+		c.anchor.set(0,10);
+		c.scale.set(0.7);
+		this.game.physics.enable(c);
+		c.body.collideWorldBounds = true;
+		//c.body.setSize(32, 32, 250, 420);
+		c.maxHealth = 45;
+		c.setHealth(c.maxHealth);
+		return c;
+		};
+		
+Level_3.prototype.addEnemy2 = function(x, y) {
+		c = this.add.sprite(x,y, "enemy2");
 		//c.scale.set(0.4);
 		c.animations.add("attack", mframe("Attack",7), 12, true);
 		c.animations.add("die", mframe("Die",7), 12, true);
@@ -338,41 +267,12 @@ Level.prototype.addEnemy1 = function(x, y) {
 		//c.body.setSize(32, 32, 250, 420);
 		c.maxHealth = 9;
 		c.setHealth(c.maxHealth);
-		c.canhit = true;
 		return c;
 		};
 		
-Level.prototype.addEnemy2 = function(x, y) {
-		c = this.add.sprite(x,y, "enemy2");
-		//c.scale.set(0.4);
-		c.animations.add("attack", mframe("Attack",7), 12, true);
-		c.animations.add("die", mframe("Die",7), 12, true);
-		c.animations.add("hurt", mframe("Hurt",7), 12, true);
-		c.animations.add("idle", mframe("Idle",7), 12, true);
-		c.animations.add("jump", mframe("Jump",7), 12, true);
-		c.animations.add("run", mframe("Run",7), 12, true);
-		c.animations.add("walk", mframe("Walk",7), 12, true);
-		c.play("idle");
-		c.anchor.set(0,0.9);
-		this.game.physics.enable(c);
-		c.body.collideWorldBounds = true;
-		c.body.setSize(32, 32, 250, 420);
-		return c;
-		};
-
-	Level.prototype.addgoal = function(x, y) {
-			k = this.add.sprite(x, y, "doorOpen_top");
-			k.anchor.set(0, 0.9);
-			//k.scale.x = 0.25;
-			//k.scale.y = 0.25;
-			
-			this.game.physics.enable(k);
-			k.body.collideWorldBounds = true;
-			//k.body.setSize(32, 32, 250, 420);
-			return k;
-		};
+	
 		
-		Level.prototype.createWeapon = function() {
+		Level_3.prototype.createWeapon = function() {
 			this.weapon1 = this.add.weapon(1,"pow",1);
 			this.weapon1.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
 			this.weapon1.trackSprite(this.player,100,10);
@@ -383,20 +283,50 @@ Level.prototype.addEnemy2 = function(x, y) {
 			this.weapon1.bulletGravity.y = -1000;
 			
 			};
-			Level.prototype.fireWeapon = function(){
+			Level_3.prototype.fireWeapon = function(){
 				if(this.weapon1.fire() !=null){
 					
 					this.shoot.play();
 				}
+				
 				};
 		
 ////////////////////////////////////////////////////////////////////
+				Level_3.prototype.onCollideBoss = function(alien,bullet){
+					bullet.kill();
+					alien.play("walk");
+					//alien.scale.x = -0.2;
+									//this.boom.play();
+									//this.game.score++;
+									//this.scoreText.text = this.game.score;
+									//exp = this.add.sprite(alien.x, alien.y, "download");
+									 //exp.anchor.set(0.5);
+									 //exp.animations.add("all",null,12,false).play().killOnComplete=true; 
+					alien.damage(3);
+					if (alien.health <= 3) {
+						this.die.play();
+						alien.isDie = true;
 
-Level.prototype.onCollide = function(alien,bullet){
+						alien.play("die", 12, false, true);
+						
+						lose = this.add.sprite(this.game.width/2, this.game.height/2,"win");
+						lose.fixedToCamera = true;
+						lose.anchor.set(0.5,0.5);
+						lose.scale.set(0.1);
+						tw = this.add.tween(lose.scale);
+						tw.to({x:1,y:1},1000, "Linear",true,0);
+						delay = this.add.tween(lose);
+						delay.to({y:-360},1000, "Linear",true,4000);
+						
+						tw.chain(delay);
+						delay.onComplete.addOnce(this.quitGame, this);
+					}
+				};
+				
+Level_3.prototype.onCollide = function(alien,bullet){
+	bullet.kill();
 	alien.play("walk");
 	//alien.scale.x = -0.2;
-	//alien.x+=100;
-	bullet.kill();
 					//this.boom.play();
 					//this.game.score++;
 					//this.scoreText.text = this.game.score;
@@ -407,15 +337,14 @@ Level.prototype.onCollide = function(alien,bullet){
 	if (alien.health <= 3) {
 		this.die.play();
 		alien.isDie = true;
-
+		
 		alien.play("die", 12, false, true);
 	}
-	
+
 };
 				
-Level.prototype.onPlayerKilled = function(){
+Level_3.prototype.onPlayerKilled = function(){
 	this.gameover=true;
-	
 	lose = this.add.sprite(this.game.width/2, this.game.height/2,"lose");
 	lose.fixedToCamera = true;
 	lose.anchor.set(0.5,0.5);
@@ -424,13 +353,12 @@ Level.prototype.onPlayerKilled = function(){
 	tw.to({x:1,y:1},1000, "Linear",true,0);
 	delay = this.add.tween(lose);
 	delay.to({y:-360},1000, "Linear",true,4000);
-	
 	tw.chain(delay);
 	delay.onComplete.addOnce(this.quitGame, this);
 	
 };	
 
-Level.prototype.onPlayerCollide = function(player,enemies){
+Level_3.prototype.onPlayerCollide = function(player,enemies){
 	player.damage(1);
 	player.canhit = false;
 	player.alpha = 0.1;
@@ -449,35 +377,25 @@ Level.prototype.onPlayerCollide = function(player,enemies){
 	
 	};
 	
-	
+	Level_3.prototype.onPlayerCollideBoss = function(player,enemies){
+		player.damage(1);
+		player.canhit = false;
+		player.alpha = 0.1;
+		var tw = this.add.tween(player);
+		tw.to({alpha:1},200, "Linear",true,0,5);
+		tw.onComplete.addOnce(function(){this.alpha=1;this.canhit=true;}, player);
+		//enemies.kill();
+		console.log("Player kill "+ count);
+		if(count==0)
+			this.heart[2].kill();
+		else if(count==1)
+			this.heart[1].kill();
+		else if(count==2)
+			this.heart[0].kill();
+		//return true;
+		
+		};
 			
-Level.prototype.adddiamond = function(x, y) {
-				k = this.add.sprite(x, y, "diamond");
-				k.anchor.set(0, 0.9);
-				k.scale.x = 0.2;
-				k.scale.y = 0.2;
-				
-				this.game.physics.enable(k);
-				k.body.collideWorldBounds = true;
-				return k;
-			};
-			
-Level.prototype.putdiamond = function(player, diamond) {
-
-			    // Removes the star from the screen
-				diamond.kill();
-
-			    //  Add and update the score
-			    score += 1;
-			    scoreText.text = 'Diamond: ' + score;
-
-};
-Level.prototype.win = function(player,Goal){
-				//player.kill();
-				if(score==3){
-				this.game.state.start("Level_2");}
-};
-
-Level.prototype.quitGame = function() {
+Level_3.prototype.quitGame = function() {
 	this.game.state.start("Menu");
 };
