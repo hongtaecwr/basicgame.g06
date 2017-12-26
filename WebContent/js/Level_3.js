@@ -30,6 +30,9 @@ Level_3.prototype.create = function() {
 	this.die = this.add.audio("die", 1, false);
 	this.die.allowMultiple = true;
 	
+	this.lion = this.add.audio("lion");
+	this.lion.allowMultiple = true;
+	
 	// ปรับขนาด world ให้กว้าง เท่ากับ ขนาดของ map
 	this.maplayer.resizeWorld();
 	//this.mapBackgroundLayer.resizeWorld();
@@ -80,6 +83,7 @@ Level_3.prototype.create = function() {
 		                           ]);
 		
 		this.createWeapon();
+		this.createButtons();
 		this.player.inputEnabled = true;
 		this.player.events.onInputDown.add(this.fireWeapon, this); 
 		 
@@ -186,18 +190,107 @@ Level_3.prototype.update = function() {
 	 
 	 this.boss.forEachAlive(function(a){
 		 if(this.playerx > a.x-500 && this.playerx || a.x && this.playery == a.y){
+			 this.lion.play();
 			 a.play("walk");
 			 a.x-=2;
 			 a.scale.x = -0.7;
 		 } else if(this.playerx > a.x && this.playerx < a.x+500 || this.playery == a.y){
+			 this.lion.play();
 			 a.play("walk");
 			 a.x+=2;
 			 a.scale.x = 0.7;
 		 }	 		 		 
 	 },this);
+	 
+	//add condrion for controlling the player actor.
+		if(this.btn_right.isdown){
+			this.player.scale.x=0.3;
+			 this.player.body.velocity.x = 150;	
+			 this.weapon1.fireAngle = 360;
+			 this.weapon1.trackSprite(this.player,100,10);
+		}
+		if(this.btn_left.isdown){
+			this.player.scale.x=-0.3;
+			 this.player.body.velocity.x = -150;
+			 this.weapon1.fireAngle = 180;
+			 this.weapon1.trackSprite(this.player,-80,10);
+		}
+		if(this.btn_jump.isdown && this.player.body.onFloor()){
+			this.player.body.velocity.y = -900;
+		}
+		if(this.btn_down.isdown){
+			this.player.play("run");
+	    	this.fireWeapon();
+		}
 	
 };
 
+Level_3.prototype.createButtons = function() {
+
+	this.btn_left = this.add.button(120,this.game.height-130,"btn_left");
+	this.btn_left.anchor.set(1,0);
+	this.btn_left.scale.set(0.4);
+	this.btn_left.alpha=0.6;
+	
+	this.btn_right = this.add.button(165,this.game.height-130,"btn_right");
+	this.btn_right.scale.set(0.4);
+	this.btn_right.alpha=0.6;
+	
+	this.btn_jump=this.add.button(this.game.width-70,this.game.height-300,"btn_up");
+	this.btn_jump.anchor.set(1,0);
+	this.btn_jump.scale.set(0.4);
+	this.btn_jump.alpha=0.6;
+	
+	this.btn_down=this.add.button(this.game.width-40,this.game.height-180,"btn_down");
+	this.btn_down.anchor.set(1,0);
+	this.btn_down.scale.set(0.6);
+	this.btn_down.alpha=0.6;
+
+	this.btn_left.isdown=false;
+	this.btn_right.isdown=false;
+	this.btn_jump.isdown=false;
+	this.btn_down.isdown=false;
+	
+	this.ui.add(this.btn_left);
+	this.ui.add(this.btn_right);
+	this.ui.add(this.btn_jump);
+	this.ui.add(this.btn_down);
+	
+	this.btn_left.onInputDown.add(this.inputDown,this.btn_left);
+	this.btn_left.onInputUp.add(this.inputUp,this.btn_left);
+	this.btn_right.onInputDown.add(this.inputDown,this.btn_right);
+	this.btn_right.onInputUp.add(this.inputUp,this.btn_right);
+	this.btn_jump.onInputDown.add(this.inputDown,this.btn_jump);
+	this.btn_jump.onInputUp.add(this.inputUp,this.btn_jump);
+	this.btn_down.onInputDown.add(this.inputDown,this.btn_down);
+	this.btn_down.onInputUp.add(this.inputUp,this.btn_down);
+	
+	//add keyboadr event
+	this.keys=this.input.keyboard.addKeys({
+	"left" : Phaser.Keyboard.LEFT,
+	"right" : Phaser.Keyboard.RIGHT,
+	"jump" : Phaser.Keyboard.UP,
+	"down" : Phaser.Keyboard.SPACEBAR
+	});
+	this.keys.left.onDown.add(this.inputDown,this.btn_left);
+	this.keys.left.onUp.add(this.inputUp,this.btn_left);
+	this.keys.right.onDown.add(this.inputDown,this.btn_right);
+	this.keys.right.onUp.add(this.inputUp,this.btn_right);
+	this.keys.jump.onDown.add(this.inputDown,this.btn_jump);
+	this.keys.jump.onUp.add(this.inputUp,this.btn_jump);
+	this.keys.down.onDown.add(this.inputDown,this.btn_down);
+	this.keys.down.onUp.add(this.inputUp,this.btn_down);
+};
+
+Level_3.prototype.inputDown = function() {
+	this.alpha = 1;
+	this.isdown = true;	
+};
+
+Level_3.prototype.inputUp = function() {
+	this.alpha = 0.6;
+	this.isdown = false;
+};
 
 Level_3.prototype.addPlayer = function(x, y) {
 	var t = this.add.sprite(x, y, "wizard");

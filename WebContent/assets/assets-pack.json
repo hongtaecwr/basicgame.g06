@@ -88,6 +88,12 @@
       "spacing": 0
     },
     {
+      "type": "audio",
+      "key": "music",
+      "urls": ["assets/audio/music.ogg"],
+      "autoDecode": true
+    },
+    {
       "type": "spritesheet",
       "key": "story1",
       "url": "assets/images/1.jpg",
@@ -197,9 +203,33 @@
     },
     {
       "type": "audio",
-      "key": "music",
-      "urls": ["assets/audio/music.ogg"],
+      "key": "lion",
+      "urls": ["assets/audio/lion.wav"],
       "autoDecode": true
+    },
+    {
+      "type": "image",
+      "key": "btn_down",
+      "url": "assets/images/btn_down.png",
+      "overwrite": false
+    },
+    {
+      "type": "image",
+      "key": "btn_left",
+      "url": "assets/images/btn_left.png",
+      "overwrite": false
+    },
+    {
+      "type": "image",
+      "key": "btn_right",
+      "url": "assets/images/btn_right.png",
+      "overwrite": false
+    },
+    {
+      "type": "image",
+      "key": "btn_up",
+      "url": "assets/images/btn_up.png",
+      "overwrite": false
     }
   ],
   "start": [{
@@ -215,7 +245,7 @@
     "overwrite": false
   }],
   "meta": {
-    "generated": "1513833141990",
+    "generated": "1513839768315",
     "app": "Phaser Editor",
     "url": "http://phasereditor.boniatillo.com",
     "version": "1.0",
